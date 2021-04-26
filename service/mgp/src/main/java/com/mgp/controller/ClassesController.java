@@ -13,10 +13,14 @@ import com.mgp.service.dto.ClassUpdateDTO;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,12 +56,19 @@ public class ClassesController {
     }
 
     @PostMapping
-    public ResponseEntity<ClassGetModel> addClass(@RequestBody ClassCreateModel classCreateModel) {
+    public ResponseEntity<ClassGetModel> addClass(@Valid @RequestBody ClassCreateModel classCreateModel, BindingResult result) {
 
         try {
+            if (result.hasErrors())
+                throw new IllegalArgumentException(result.getFieldError().getDefaultMessage());
+
             ClassGetDTO classResponse = classesService.addClass(classesMapper.convertModelToDTO(classCreateModel));
 
             return ResponseEntity.ok(classesGetMapper.convertDTOToModel(classResponse));
+        }
+        catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -66,11 +77,18 @@ public class ClassesController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClassGetModel> updateClass(@PathVariable("id") Long id, @RequestBody ClassUpdateModel classUpdateModel) {
+    public ResponseEntity<ClassGetModel> updateClass(@PathVariable("id") @NotBlank Long id, @Valid @RequestBody ClassUpdateModel classUpdateModel, BindingResult result) {
         try {
+            if (result.hasErrors())
+                throw new IllegalArgumentException(result.getFieldError().getDefaultMessage());
+
             ClassGetDTO classGetDTO = classesService.updateClass(id, classesUpdateMapper.convertModelToDTO(classUpdateModel));
 
             return ResponseEntity.ok(classesGetMapper.convertDTOToModel(classGetDTO));
+        }
+        catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage(), e);
         }
         catch (EntityNotFoundException e) {
             throw new ResponseStatusException(
