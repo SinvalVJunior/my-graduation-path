@@ -1,13 +1,13 @@
 package com.mgp.service;
 
-import com.mgp.mapper.ClassesGetMapper;
-import com.mgp.mapper.ClassesUpdateMapper;
+import com.mgp.mapper.Classes.ClassesGetMapper;
+import com.mgp.mapper.Classes.ClassesUpdateMapper;
 import com.mgp.repository.ClassesRepo;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassCreateDTO;
-import com.mgp.mapper.ClassesMapper;
-import com.mgp.service.dto.ClassGetDTO;
-import com.mgp.service.dto.ClassUpdateDTO;
+import com.mgp.service.dto.Classes.ClassCreateDTO;
+import com.mgp.mapper.Classes.ClassesMapper;
+import com.mgp.service.dto.Classes.ClassGetDTO;
+import com.mgp.service.dto.Classes.ClassUpdateDTO;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;

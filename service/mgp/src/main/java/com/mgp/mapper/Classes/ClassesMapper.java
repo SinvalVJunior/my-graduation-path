@@ -1,9 +1,9 @@
-package com.mgp.mapper;
+package com.mgp.mapper.Classes;
 
 
-import com.mgp.controller.model.ClassCreateModel;
+import com.mgp.controller.model.Classes.ClassCreateModel;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassCreateDTO;
+import com.mgp.service.dto.Classes.ClassCreateDTO;
 import org.modelmapper.ModelMapper;
 
 public class ClassesMapper {

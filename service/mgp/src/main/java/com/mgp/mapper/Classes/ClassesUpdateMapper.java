@@ -1,8 +1,8 @@
-package com.mgp.mapper;
+package com.mgp.mapper.Classes;
 
-import com.mgp.controller.model.ClassUpdateModel;
+import com.mgp.controller.model.Classes.ClassUpdateModel;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassUpdateDTO;
+import com.mgp.service.dto.Classes.ClassUpdateDTO;
 import org.modelmapper.ModelMapper;
 
 public class ClassesUpdateMapper {

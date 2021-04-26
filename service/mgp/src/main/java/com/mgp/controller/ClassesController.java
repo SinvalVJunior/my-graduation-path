@@ -1,16 +1,13 @@
 package com.mgp.controller;
 
-import com.mgp.controller.model.ClassGetModel;
-import com.mgp.controller.model.ClassCreateModel;
-import com.mgp.controller.model.ClassUpdateModel;
-import com.mgp.mapper.ClassesGetMapper;
-import com.mgp.mapper.ClassesMapper;
-import com.mgp.mapper.ClassesUpdateMapper;
+import com.mgp.controller.model.Classes.ClassGetModel;
+import com.mgp.controller.model.Classes.ClassCreateModel;
+import com.mgp.controller.model.Classes.ClassUpdateModel;
+import com.mgp.mapper.Classes.ClassesGetMapper;
+import com.mgp.mapper.Classes.ClassesMapper;
+import com.mgp.mapper.Classes.ClassesUpdateMapper;
 import com.mgp.service.ClassesService;
-import com.mgp.service.dto.ClassCreateDTO;
-import com.mgp.service.dto.ClassGetDTO;
-import com.mgp.service.dto.ClassUpdateDTO;
-import com.sun.istack.NotNull;
+import com.mgp.service.dto.Classes.ClassGetDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Api(tags = {"Classes"})
-@RequestMapping("/api/classes")
+@RequestMapping("/api/v1/classes")
 @RestController
 public class ClassesController {
 

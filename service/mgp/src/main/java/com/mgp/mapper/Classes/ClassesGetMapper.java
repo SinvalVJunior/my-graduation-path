@@ -1,8 +1,8 @@
-package com.mgp.mapper;
+package com.mgp.mapper.Classes;
 
-import com.mgp.controller.model.ClassGetModel;
+import com.mgp.controller.model.Classes.ClassGetModel;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassGetDTO;
+import com.mgp.service.dto.Classes.ClassGetDTO;
 import org.modelmapper.ModelMapper;
 
 public class ClassesGetMapper {
