@@ -1,19 +1,22 @@
 package com.mgp.controller;
 
 import com.mgp.controller.model.ClassGetModel;
-import com.mgp.controller.model.ClassModel;
+import com.mgp.controller.model.ClassCreateModel;
+import com.mgp.controller.model.ClassUpdateModel;
 import com.mgp.mapper.ClassesGetMapper;
 import com.mgp.mapper.ClassesMapper;
-import com.mgp.repository.entities.ClassEntity;
+import com.mgp.mapper.ClassesUpdateMapper;
 import com.mgp.service.ClassesService;
-import com.mgp.service.dto.ClassDTO;
+import com.mgp.service.dto.ClassCreateDTO;
 import com.mgp.service.dto.ClassGetDTO;
+import com.mgp.service.dto.ClassUpdateDTO;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +27,13 @@ public class ClassesController {
     public ClassesService classesService;
     private final ClassesMapper classesMapper;
     private final ClassesGetMapper classesGetMapper;
+    private final ClassesUpdateMapper classesUpdateMapper;
 
     public ClassesController(ClassesService classesService) {
         this.classesService = classesService;
         this.classesMapper = new ClassesMapper();
         this.classesGetMapper = new ClassesGetMapper();
+        this.classesUpdateMapper = new ClassesUpdateMapper();
     }
 
     @GetMapping
@@ -47,12 +52,29 @@ public class ClassesController {
     }
 
     @PostMapping
-    public ResponseEntity<ClassModel> addClass(@RequestBody ClassModel classModel) {
+    public ResponseEntity<ClassGetModel> addClass(@RequestBody ClassCreateModel classCreateModel) {
 
         try {
-            ClassDTO classResponse = classesService.addClass(classesMapper.convertModelToDTO(classModel));
+            ClassGetDTO classResponse = classesService.addClass(classesMapper.convertModelToDTO(classCreateModel));
 
-            return ResponseEntity.ok(classesMapper.convertDTOToModel(classResponse));
+            return ResponseEntity.ok(classesGetMapper.convertDTOToModel(classResponse));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ClassGetModel> updateClass(@PathVariable("id") Long id, @RequestBody ClassUpdateModel classUpdateModel) {
+        try {
+            ClassGetDTO classGetDTO = classesService.updateClass(id, classesUpdateMapper.convertModelToDTO(classUpdateModel));
+
+            return ResponseEntity.ok(classesGetMapper.convertDTOToModel(classGetDTO));
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
         catch (Exception e) {
             e.printStackTrace();

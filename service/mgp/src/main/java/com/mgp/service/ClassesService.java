@@ -1,13 +1,16 @@
 package com.mgp.service;
 
 import com.mgp.mapper.ClassesGetMapper;
+import com.mgp.mapper.ClassesUpdateMapper;
 import com.mgp.repository.ClassesRepo;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassDTO;
+import com.mgp.service.dto.ClassCreateDTO;
 import com.mgp.mapper.ClassesMapper;
 import com.mgp.service.dto.ClassGetDTO;
+import com.mgp.service.dto.ClassUpdateDTO;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,11 +20,13 @@ public class ClassesService {
     public ClassesRepo classesRepo;
     private final ClassesMapper classesMapper;
     private final ClassesGetMapper classesGetMapper;
+    private final ClassesUpdateMapper classesUpdateMapper;
 
     public ClassesService(ClassesRepo classesRepo) {
         this.classesRepo = classesRepo;
         this.classesMapper = new ClassesMapper();
         this.classesGetMapper = new ClassesGetMapper();
+        this.classesUpdateMapper = new ClassesUpdateMapper();
     }
 
     public List<ClassGetDTO> getClasses() {
@@ -31,12 +36,25 @@ public class ClassesService {
                 .collect(Collectors.toList());
     }
 
-    public ClassDTO addClass(ClassDTO classDTO) {
-        ClassEntity classEntity = classesRepo.save(classesMapper.convertDTOToEntity(classDTO));
-        return classesMapper.convertEntityToDTO(classEntity);
+    public ClassGetDTO addClass(ClassCreateDTO classCreateDTO) {
+        ClassEntity classEntity = classesRepo.save(classesMapper.convertDTOToEntity(classCreateDTO));
+        return classesGetMapper.convertEntityToDTO(classEntity);
     }
 
     public void deleteClass(Long id) {
         classesRepo.deleteById(id);
+    }
+
+    public ClassGetDTO updateClass(Long id, ClassUpdateDTO classUpdateDTO) {
+        ClassEntity classEntity = classesRepo.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Cannot find Class with id (" + id + ").")
+        );
+
+        if(classUpdateDTO.getName() != null)
+            classEntity.setName(classUpdateDTO.getName());
+
+        ClassEntity classEntitySaved = classesRepo.save(classEntity);
+
+        return classesGetMapper.convertEntityToDTO(classEntitySaved);
     }
 }

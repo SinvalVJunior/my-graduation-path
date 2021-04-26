@@ -1,7 +1,6 @@
 package com.mgp.repository.entities;
 
 
-import com.mgp.service.dto.ClassDTO;
 import lombok.*;
 
 import javax.persistence.*;

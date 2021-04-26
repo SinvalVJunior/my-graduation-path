@@ -1,9 +1,9 @@
 package com.mgp.mapper;
 
 
-import com.mgp.controller.model.ClassModel;
+import com.mgp.controller.model.ClassCreateModel;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassDTO;
+import com.mgp.service.dto.ClassCreateDTO;
 import org.modelmapper.ModelMapper;
 
 public class ClassesMapper {
@@ -11,14 +11,14 @@ public class ClassesMapper {
 
     public ClassesMapper() { this.modelMapper = new ModelMapper(); }
 
-    public ClassEntity convertDTOToEntity(ClassDTO classDTO) {
-        return modelMapper.map(classDTO, ClassEntity.class);
+    public ClassEntity convertDTOToEntity(ClassCreateDTO classCreateDTO) {
+        return modelMapper.map(classCreateDTO, ClassEntity.class);
     }
 
-    public ClassDTO convertEntityToDTO(ClassEntity classEntity) { return modelMapper.map(classEntity, ClassDTO.class); }
+    public ClassCreateDTO convertEntityToDTO(ClassEntity classEntity) { return modelMapper.map(classEntity, ClassCreateDTO.class); }
 
-    public ClassModel convertDTOToModel(ClassDTO classDTO) { return modelMapper.map(classDTO, ClassModel.class); }
+    public ClassCreateModel convertDTOToModel(ClassCreateDTO classCreateDTO) { return modelMapper.map(classCreateDTO, ClassCreateModel.class); }
 
-    public ClassDTO convertModelToDTO(ClassModel classModel) { return modelMapper.map(classModel, ClassDTO.class); }
+    public ClassCreateDTO convertModelToDTO(ClassCreateModel classCreateModel) { return modelMapper.map(classCreateModel, ClassCreateDTO.class); }
 
 }

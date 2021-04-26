@@ -1,9 +1,7 @@
 package com.mgp.mapper;
 
 import com.mgp.controller.model.ClassGetModel;
-import com.mgp.controller.model.ClassModel;
 import com.mgp.repository.entities.ClassEntity;
-import com.mgp.service.dto.ClassDTO;
 import com.mgp.service.dto.ClassGetDTO;
 import org.modelmapper.ModelMapper;
 
