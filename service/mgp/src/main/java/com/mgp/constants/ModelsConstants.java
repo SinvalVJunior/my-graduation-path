@@ -1,6 +1,6 @@
 package com.mgp.constants;
 
-public final class ParametersConstants {
+public final class ModelsConstants {
 
     public static final class Classes {
         public static final int NAMES_MIN_SIZE = 1;
