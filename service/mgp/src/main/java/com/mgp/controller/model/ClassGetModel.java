@@ -10,5 +10,8 @@ import lombok.NoArgsConstructor;
 public class ClassGetModel {
     private Long id;
     private String name;
+    private Integer hours;
+    private Boolean done;
+    private Boolean added;
 
 }

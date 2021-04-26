@@ -10,6 +10,7 @@ import com.mgp.service.ClassesService;
 import com.mgp.service.dto.ClassCreateDTO;
 import com.mgp.service.dto.ClassGetDTO;
 import com.mgp.service.dto.ClassUpdateDTO;
+import com.sun.istack.NotNull;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,7 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -9,4 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClassUpdateDTO {
     private String name;
+    private Integer hours;
+    private Boolean done;
+    private Boolean added;
 }

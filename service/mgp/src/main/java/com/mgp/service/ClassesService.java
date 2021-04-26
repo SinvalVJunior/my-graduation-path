@@ -53,6 +53,15 @@ public class ClassesService {
         if(classUpdateDTO.getName() != null)
             classEntity.setName(classUpdateDTO.getName());
 
+        if(classUpdateDTO.getHours() != null)
+            classEntity.setHours(classUpdateDTO.getHours());
+
+        if(classUpdateDTO.getAdded() != null)
+            classEntity.setAdded(classUpdateDTO.getAdded());
+
+        if(classUpdateDTO.getDone() != null)
+            classEntity.setDone(classUpdateDTO.getDone());
+
         ClassEntity classEntitySaved = classesRepo.save(classEntity);
 
         return classesGetMapper.convertEntityToDTO(classEntitySaved);

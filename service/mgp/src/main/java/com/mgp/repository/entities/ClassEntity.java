@@ -21,13 +21,13 @@ public class ClassEntity {
     private String name;
 
     @Column(name = "hours")
-    private int hours;
+    private Integer hours;
 
     @Column(name = "done")
-    private boolean done;
+    private Boolean done;
 
     @Column(name = "added")
-    private boolean added;
+    private Boolean added;
 
     @ManyToMany
     private List<ClassEntity> dependencies;
