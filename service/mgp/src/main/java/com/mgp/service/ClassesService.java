@@ -5,7 +5,7 @@ import com.mgp.mapper.Classes.ClassesUpdateMapper;
 import com.mgp.repository.ClassesRepo;
 import com.mgp.repository.entities.ClassEntity;
 import com.mgp.service.dto.Classes.ClassCreateDTO;
-import com.mgp.mapper.Classes.ClassesMapper;
+import com.mgp.mapper.Classes.ClassesCreateMapper;
 import com.mgp.service.dto.Classes.ClassGetDTO;
 import com.mgp.service.dto.Classes.ClassUpdateDTO;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ import java.util.stream.Collectors;
 public class ClassesService {
 
     public ClassesRepo classesRepo;
-    private final ClassesMapper classesMapper;
+    private final ClassesCreateMapper classesCreateMapper;
     private final ClassesGetMapper classesGetMapper;
     private final ClassesUpdateMapper classesUpdateMapper;
 
     public ClassesService(ClassesRepo classesRepo) {
         this.classesRepo = classesRepo;
-        this.classesMapper = new ClassesMapper();
+        this.classesCreateMapper = new ClassesCreateMapper();
         this.classesGetMapper = new ClassesGetMapper();
         this.classesUpdateMapper = new ClassesUpdateMapper();
     }
@@ -37,7 +37,7 @@ public class ClassesService {
     }
 
     public ClassGetDTO addClass(ClassCreateDTO classCreateDTO) {
-        ClassEntity classEntity = classesRepo.save(classesMapper.convertDTOToEntity(classCreateDTO));
+        ClassEntity classEntity = classesRepo.save(classesCreateMapper.convertDTOToEntity(classCreateDTO));
         return classesGetMapper.convertEntityToDTO(classEntity);
     }
 

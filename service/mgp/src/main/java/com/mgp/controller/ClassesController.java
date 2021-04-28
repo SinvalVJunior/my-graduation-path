@@ -4,7 +4,7 @@ import com.mgp.controller.model.Classes.ClassGetModel;
 import com.mgp.controller.model.Classes.ClassCreateModel;
 import com.mgp.controller.model.Classes.ClassUpdateModel;
 import com.mgp.mapper.Classes.ClassesGetMapper;
-import com.mgp.mapper.Classes.ClassesMapper;
+import com.mgp.mapper.Classes.ClassesCreateMapper;
 import com.mgp.mapper.Classes.ClassesUpdateMapper;
 import com.mgp.service.ClassesService;
 import com.mgp.service.dto.Classes.ClassGetDTO;
@@ -29,13 +29,13 @@ import java.util.stream.Collectors;
 public class ClassesController {
 
     public ClassesService classesService;
-    private final ClassesMapper classesMapper;
+    private final ClassesCreateMapper classesCreateMapper;
     private final ClassesGetMapper classesGetMapper;
     private final ClassesUpdateMapper classesUpdateMapper;
 
     public ClassesController(ClassesService classesService) {
         this.classesService = classesService;
-        this.classesMapper = new ClassesMapper();
+        this.classesCreateMapper = new ClassesCreateMapper();
         this.classesGetMapper = new ClassesGetMapper();
         this.classesUpdateMapper = new ClassesUpdateMapper();
     }
@@ -64,7 +64,7 @@ public class ClassesController {
             if (result.hasErrors())
                 throw new IllegalArgumentException(result.getFieldError().getDefaultMessage());
 
-            ClassGetDTO classResponse = classesService.addClass(classesMapper.convertModelToDTO(classCreateModel));
+            ClassGetDTO classResponse = classesService.addClass(classesCreateMapper.convertModelToDTO(classCreateModel));
 
             return ResponseEntity.ok(classesGetMapper.convertDTOToModel(classResponse));
         }

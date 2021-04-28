@@ -6,10 +6,10 @@ import com.mgp.repository.entities.ClassEntity;
 import com.mgp.service.dto.Classes.ClassCreateDTO;
 import org.modelmapper.ModelMapper;
 
-public class ClassesMapper {
+public class ClassesCreateMapper {
     private final ModelMapper modelMapper;
 
-    public ClassesMapper() { this.modelMapper = new ModelMapper(); }
+    public ClassesCreateMapper() { this.modelMapper = new ModelMapper(); }
 
     public ClassEntity convertDTOToEntity(ClassCreateDTO classCreateDTO) {
         return modelMapper.map(classCreateDTO, ClassEntity.class);
