@@ -1,5 +1,6 @@
 package com.mgp.controller;
 
+import com.mgp.controller.model.Classes.ClassGetAvailableModel;
 import com.mgp.controller.model.Classes.ClassGetModel;
 import com.mgp.controller.model.Classes.ClassCreateModel;
 import com.mgp.controller.model.Classes.ClassUpdateModel;
@@ -119,6 +120,14 @@ public class ClassesController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<ClassGetModel>> getAvailableClasses(@ModelAttribute ClassGetAvailableModel classGetAvailableModel) {
+        List<ClassGetDTO> classGetDTOList = classesService.getAvailableClasses(classGetAvailableModel);
+        List<ClassGetModel> classGetModelList = classGetDTOList.stream().map(classesGetMapper::convertDTOToModel).collect(Collectors.toList());
+
+        return ResponseEntity.ok(classGetModelList);
     }
 
 }

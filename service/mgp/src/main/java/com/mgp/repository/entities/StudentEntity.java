@@ -33,4 +33,7 @@ public class StudentEntity {
     @OneToMany
     private List<SemesterEntity> semesters;
 
+    @OneToMany
+    private List<ClassEntity> classesDone;
+
 }

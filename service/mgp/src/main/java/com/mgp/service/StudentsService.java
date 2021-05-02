@@ -2,14 +2,8 @@ package com.mgp.service;
 
 import com.mgp.mapper.Students.StudentsCreateMapper;
 import com.mgp.mapper.Students.StudentsGetMapper;
-import com.mgp.repository.CollegesRepo;
-import com.mgp.repository.CoursesRepo;
-import com.mgp.repository.SemestersRepo;
-import com.mgp.repository.StudentsRepo;
-import com.mgp.repository.entities.CollegeEntity;
-import com.mgp.repository.entities.CourseEntity;
-import com.mgp.repository.entities.SemesterEntity;
-import com.mgp.repository.entities.StudentEntity;
+import com.mgp.repository.*;
+import com.mgp.repository.entities.*;
 import com.mgp.service.dto.Students.StudentCreateDTO;
 import com.mgp.service.dto.Students.StudentGetDTO;
 import org.springframework.stereotype.Service;
@@ -23,18 +17,21 @@ import java.util.stream.Collectors;
 public class StudentsService {
 
     private StudentsRepo studentsRepo;
-    private StudentsGetMapper studentsGetMapper;
-    private StudentsCreateMapper studentsCreateMapper;
     private SemestersRepo semestersRepo;
     private CollegesRepo collegesRepo;
     private CoursesRepo coursesRepo;
+    private ClassesRepo classesRepo;
 
-    public StudentsService(StudentsRepo studentsRepo, SemestersRepo semestersRepo, CollegesRepo collegesRepo, CoursesRepo coursesRepo) {
+    private StudentsGetMapper studentsGetMapper;
+    private StudentsCreateMapper studentsCreateMapper;
+
+    public StudentsService(StudentsRepo studentsRepo, SemestersRepo semestersRepo, CollegesRepo collegesRepo, CoursesRepo coursesRepo, ClassesRepo classesRepo) {
 
         this.studentsRepo = studentsRepo;
         this.semestersRepo = semestersRepo;
         this.collegesRepo = collegesRepo;
         this.coursesRepo = coursesRepo;
+        this.classesRepo = classesRepo;
 
         this.studentsGetMapper = new StudentsGetMapper();
         this.studentsCreateMapper = new StudentsCreateMapper();
@@ -59,6 +56,14 @@ public class StudentsService {
             semesterEntityList.add(semesterEntity);
         });
 
+        List<ClassEntity> classEntityList = new ArrayList<>();
+        studentCreateDTO.getClassesDone().forEach(classId -> {
+            ClassEntity classEntity = classesRepo.findById(classId).orElseThrow(
+                    () -> new EntityNotFoundException("Cannot find class with id (" + classId + ").")
+            );
+            classEntityList.add(classEntity);
+        });
+
         CollegeEntity collegeEntity = collegesRepo.findById(studentCreateDTO.getCollege()).orElseThrow(
                 () -> new EntityNotFoundException("Cannot find college with id (" + studentCreateDTO.getCollege() + ").")
         );
@@ -67,7 +72,7 @@ public class StudentsService {
                 () ->  new EntityNotFoundException("Cannot find course with id (" + studentCreateDTO.getCourse() + ").")
         );
 
-        StudentEntity studentEntity = studentsCreateMapper.convertDTOToEntity(studentCreateDTO, semesterEntityList, collegeEntity, courseEntity);
+        StudentEntity studentEntity = studentsCreateMapper.convertDTOToEntity(studentCreateDTO, semesterEntityList, collegeEntity, courseEntity, classEntityList);
 
         StudentEntity studentEntitySaved = studentsRepo.save(studentEntity);
 

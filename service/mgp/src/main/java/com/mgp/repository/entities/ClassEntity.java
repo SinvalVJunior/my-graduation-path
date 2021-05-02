@@ -23,12 +23,6 @@ public class ClassEntity {
     @Column(name = "hours")
     private Integer hours;
 
-    @Column(name = "done")
-    private Boolean done;
-
-    @Column(name = "added")
-    private Boolean added;
-
     @ManyToMany
     private List<ClassEntity> dependencies;
 

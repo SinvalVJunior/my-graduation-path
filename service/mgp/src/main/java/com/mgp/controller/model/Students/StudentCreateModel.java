@@ -15,4 +15,6 @@ public class StudentCreateModel {
     private Long college;
     private Long course;
     private List<Long> semesters;
+    private List<Long> classesDone;
+
 }

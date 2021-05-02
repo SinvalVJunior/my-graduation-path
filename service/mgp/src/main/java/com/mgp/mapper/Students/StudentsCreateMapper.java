@@ -1,10 +1,7 @@
 package com.mgp.mapper.Students;
 
 import com.mgp.controller.model.Students.StudentCreateModel;
-import com.mgp.repository.entities.CollegeEntity;
-import com.mgp.repository.entities.CourseEntity;
-import com.mgp.repository.entities.SemesterEntity;
-import com.mgp.repository.entities.StudentEntity;
+import com.mgp.repository.entities.*;
 import com.mgp.service.dto.Students.StudentCreateDTO;
 import org.modelmapper.ModelMapper;
 
@@ -18,9 +15,9 @@ public class StudentsCreateMapper {
         this.modelMapper = new ModelMapper();
     }
 
-    public StudentEntity convertDTOToEntity(StudentCreateDTO studentCreateDTO, List<SemesterEntity> semesterEntityList, CollegeEntity collegeEntity, CourseEntity courseEntity) {
+    public StudentEntity convertDTOToEntity(StudentCreateDTO studentCreateDTO, List<SemesterEntity> semesterEntityList, CollegeEntity collegeEntity, CourseEntity courseEntity, List<ClassEntity> classesDone) {
 
-        return  new StudentEntity( null, studentCreateDTO.getName(),collegeEntity, courseEntity, semesterEntityList);
+        return  new StudentEntity( null, studentCreateDTO.getName(),collegeEntity, courseEntity, semesterEntityList, classesDone);
     }
 
     public StudentCreateDTO convertEntityToDTO(StudentEntity studentEntity) {
@@ -29,12 +26,18 @@ public class StudentsCreateMapper {
         Long course = studentEntity.getCourse().getId();
 
         List<Long> semesters = new ArrayList<>();
+        List<Long> classesDone = new ArrayList<>();
 
         studentEntity.getSemesters().forEach(semesterEntity -> {
             semesters.add(semesterEntity.getId());
         });
 
-        return new StudentCreateDTO( studentEntity.getName(), college, course, semesters);
+        studentEntity.getClassesDone().forEach(classEntity -> {
+            classesDone.add(classEntity.getId());
+        });
+
+
+        return new StudentCreateDTO( studentEntity.getName(), college, course, semesters, classesDone);
 
     }
 

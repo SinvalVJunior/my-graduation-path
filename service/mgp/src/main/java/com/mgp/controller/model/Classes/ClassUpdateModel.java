@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +26,6 @@ public class ClassUpdateModel {
     @Max(value = ModelsConstants.Classes.HOURS_MAX_SIZE, message = "Hours must be at most " + ModelsConstants.Classes.HOURS_MAX_SIZE)
     private Integer hours;
 
-    private Boolean done;
+    private List<Long> dependencies;
 
-    private Boolean added;
 }
