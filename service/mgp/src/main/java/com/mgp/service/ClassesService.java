@@ -107,25 +107,87 @@ public class ClassesService {
         List<ClassEntity> allClasses = courseEntity.getClasses();
         List<ClassEntity> availableClasses = new ArrayList<>();
 
-        allClasses.forEach(classEntity -> {
-            if(!studentEntity.getClassesDone().contains(classEntity)){
+        for (ClassEntity classEntity : allClasses) {
 
-                AtomicBoolean hasAllDependencies = new AtomicBoolean(true);
-                classEntity.getDependencies().forEach(dependency -> {
-                    if(!studentEntity.getClassesDone().contains(dependency))
-                        hasAllDependencies.set(false);
-                });
+            if(!studentEntity.getClassesDone().contains(classEntity)) {
 
-                if(hasAllDependencies.get())
-                    availableClasses.add(classEntity);
+                if (studentHasAllClassDependencies(studentEntity, classEntity)) {
+
+                    if (!classInSemesters(classEntity, studentEntity, classGetAvailableModel.getSemesterNumber())) {
+
+                        availableClasses.add(classEntity);
+                    }
+
+                } else {
+
+                    if(semestersHasAllDependencies(classEntity, studentEntity, classGetAvailableModel.getSemesterNumber())
+                            && !classInSemesters(classEntity, studentEntity, classGetAvailableModel.getSemesterNumber())) {
+                        availableClasses.add(classEntity);
+                    }
+                }
 
             }
-        });
 
+
+        }
 
         return availableClasses.stream()
                 .map(classesGetMapper::convertEntityToDTO)
                 .collect(Collectors.toList());
 
+    }
+
+    private boolean semestersHasAllDependencies(ClassEntity classEntity, StudentEntity studentEntity, Integer semesterNumber) {
+
+        boolean hasAllDependencies = false;
+
+        for (ClassEntity dependency : classEntity.getDependencies()) {
+
+            for (int i = 0; i < semesterNumber; i++) {
+
+                if (studentEntity.getSemesters().get(i).getClasses().contains(dependency)) {
+                    hasAllDependencies = true;
+                    break;
+                }
+                else hasAllDependencies = false;
+
+
+            }
+
+            if(!hasAllDependencies)
+                return false;
+
+        }
+
+        return hasAllDependencies;
+    }
+
+    public boolean studentHasAllClassDependencies( StudentEntity studentEntity, ClassEntity classEntity) {
+
+        for (ClassEntity dependency : classEntity.getDependencies()) {
+
+            if(!studentEntity.getClassesDone().contains(dependency))
+                return false;
+
+        }
+
+        return true;
+    }
+
+
+    private boolean classInSemesters(ClassEntity classEntity, StudentEntity studentEntity, int semesterNumber) {
+
+        boolean hasClass = false;
+
+        for (int i = 0; i < semesterNumber; i++) {
+
+            for (ClassEntity classSemester: studentEntity.getSemesters().get(i).getClasses()) {
+
+                if(classSemester.getId().equals(classSemester.getId()))
+                    hasClass = true;
+            }
+        }
+
+        return hasClass;
     }
 }

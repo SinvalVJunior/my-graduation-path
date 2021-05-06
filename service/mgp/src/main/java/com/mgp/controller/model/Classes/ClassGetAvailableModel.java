@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class ClassGetAvailableModel {
 
     private Long studentId;
+    private Integer semesterNumber;
 }
