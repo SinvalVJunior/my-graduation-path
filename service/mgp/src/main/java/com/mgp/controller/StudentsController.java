@@ -77,6 +77,15 @@ public class StudentsController {
         return ResponseEntity.ok(studentsGetMapper.convertDTOToModel(studentGetDTO));
     }
 
+    @PostMapping("/semesters/classes/{id}")
+    public ResponseEntity<StudentGetModel> addClassToStudentSemester(@PathVariable("id") Long studentId, Long semesterId, Long classId) {
+
+        StudentGetDTO studentGetDTO = studentsService.addClassToStudentSemester(studentId, semesterId, classId);
+
+        return ResponseEntity.ok(studentsGetMapper.convertDTOToModel(studentGetDTO));
+
+    }
+
 
 
 }
