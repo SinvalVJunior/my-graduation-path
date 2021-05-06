@@ -98,4 +98,21 @@ public class StudentsService {
     }
 
 
+    public StudentGetDTO removeSemesterOfStudent(Long studentId, Long semesterId) {
+
+        StudentEntity studentEntity = studentsRepo.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find student with id (" + studentId + ")."));
+
+        SemesterEntity semesterEntity = semestersRepo.findById(semesterId).orElseThrow(
+                () -> new EntityNotFoundException("Cannot find semester with id (" + semesterId + ").")
+        );
+
+        if(!studentEntity.getSemesters().contains(semesterEntity))
+            throw new EntityNotFoundException("The student does not have a semester with this id (" + semesterId + ").");
+
+        studentEntity.getSemesters().remove(semesterEntity);
+
+        StudentEntity studentEntitySaved = studentsRepo.save(studentEntity);
+        return studentsGetMapper.convertEntityToDTO(studentEntitySaved);
+    }
 }
