@@ -60,6 +60,15 @@ public class StudentsController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PostMapping("/semesters/{id}")
+    public ResponseEntity<StudentGetModel> addSemesterToStudent(@PathVariable("id") Long studentId) {
+
+        StudentGetDTO studentGetDTO = studentsService.addSemesterToStudent(studentId);
+
+        return ResponseEntity.ok(studentsGetMapper.convertDTOToModel(studentGetDTO));
+
+    }
+
 
 
 }

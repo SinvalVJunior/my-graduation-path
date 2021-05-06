@@ -85,5 +85,17 @@ public class StudentsService {
         studentsRepo.deleteById(id);
     }
 
+    public StudentGetDTO addSemesterToStudent(Long studentId) {
+
+        StudentEntity studentEntity = studentsRepo.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find student with id (" + studentId + ")."));
+
+        studentEntity.getSemesters().add(semestersRepo.save(new SemesterEntity()));
+
+        StudentEntity studentEntitySaved = studentsRepo.save(studentEntity);
+        return studentsGetMapper.convertEntityToDTO(studentEntitySaved);
+
+    }
+
 
 }

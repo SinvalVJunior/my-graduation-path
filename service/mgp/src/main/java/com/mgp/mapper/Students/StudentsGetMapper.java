@@ -26,18 +26,13 @@ public class StudentsGetMapper {
         Long college = studentEntity.getCollege().getId();
         Long course = studentEntity.getCourse().getId();
 
-        List<Long> semesters = new ArrayList<>();
         List<Long> classesDone = new ArrayList<>();
-
-        studentEntity.getSemesters().forEach(semesterEntity -> {
-            semesters.add(semesterEntity.getId());
-        });
 
         studentEntity.getClassesDone().forEach(classEntity -> {
             classesDone.add(classEntity.getId());
         });
 
-        return new StudentGetDTO(studentEntity.getId(), studentEntity.getName(), college, course, semesters, classesDone);
+        return new StudentGetDTO(studentEntity.getId(), studentEntity.getName(), college, course, studentEntity.getSemesters(), classesDone);
 
     }
 

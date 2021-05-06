@@ -1,5 +1,6 @@
 package com.mgp.controller.model.Students;
 
+import com.mgp.repository.entities.SemesterEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class StudentGetModel {
     private String name;
     private Long college;
     private Long course;
-    private List<Long> semesters;
+    private List<SemesterEntity> semesters;
     private List<Long> classesDone;
 
 }
