@@ -86,6 +86,15 @@ public class StudentsController {
 
     }
 
+    @DeleteMapping("/semesters/classes/{id}")
+    public ResponseEntity<StudentGetModel> removeClassFromStudentSemester(@PathVariable("id") Long studentId, Long semesterId, Long classId) {
+
+        StudentGetDTO studentGetDTO = studentsService.removeClassFromStudentSemester(studentId, semesterId, classId);
+
+        return ResponseEntity.ok(studentsGetMapper.convertDTOToModel(studentGetDTO));
+
+    }
+
 
 
 }

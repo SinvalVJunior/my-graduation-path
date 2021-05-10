@@ -69,7 +69,7 @@ public class StudentsService {
         );
 
         CourseEntity courseEntity = coursesRepo.findById(studentCreateDTO.getCourse()).orElseThrow(
-                () ->  new EntityNotFoundException("Cannot find course with id (" + studentCreateDTO.getCourse() + ").")
+                () -> new EntityNotFoundException("Cannot find course with id (" + studentCreateDTO.getCourse() + ").")
         );
 
         StudentEntity studentEntity = studentsCreateMapper.convertDTOToEntity(studentCreateDTO, semesterEntityList, collegeEntity, courseEntity, classEntityList);
@@ -107,7 +107,7 @@ public class StudentsService {
                 () -> new EntityNotFoundException("Cannot find semester with id (" + semesterId + ").")
         );
 
-        if(!studentEntity.getSemesters().contains(semesterEntity))
+        if (!studentEntity.getSemesters().contains(semesterEntity))
             throw new EntityNotFoundException("The student does not have a semester with this id (" + semesterId + ").");
 
         studentEntity.getSemesters().remove(semesterEntity);
@@ -129,14 +129,44 @@ public class StudentsService {
                 () -> new EntityNotFoundException("Cannot find class with id (" + classId + ").")
         );
 
-        if(!studentEntity.getSemesters().contains(semesterEntity))
+        if (!studentEntity.getSemesters().contains(semesterEntity))
             throw new EntityNotFoundException("The student does not have a semester with this id (" + semesterId + ").");
 
-        if(semesterEntity.getClasses().contains(classEntity))
+        if (semesterEntity.getClasses().contains(classEntity))
             throw new EntityNotFoundException("The semester already contains a class with this id (" + classId + ").");
 
 
         semesterEntity.getClasses().add(classEntity);
+
+        semestersRepo.save(semesterEntity);
+
+        StudentEntity studentEntitySaved = studentsRepo.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find student with id (" + studentId + ")."));
+
+        return studentsGetMapper.convertEntityToDTO(studentEntitySaved);
+
+    }
+
+    public StudentGetDTO removeClassFromStudentSemester(Long studentId, Long semesterId, Long classId) {
+
+        StudentEntity studentEntity = studentsRepo.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Cannot find student with id (" + studentId + ")."));
+
+        SemesterEntity semesterEntity = semestersRepo.findById(semesterId).orElseThrow(
+                () -> new EntityNotFoundException("Cannot find semester with id (" + semesterId + ").")
+        );
+
+        ClassEntity classEntity = classesRepo.findById(classId).orElseThrow(
+                () -> new EntityNotFoundException("Cannot find class with id (" + classId + ").")
+        );
+
+        if (!studentEntity.getSemesters().contains(semesterEntity))
+            throw new EntityNotFoundException("The student does not have a semester with this id (" + semesterId + ").");
+
+        if (!semesterEntity.getClasses().contains(classEntity))
+            throw new EntityNotFoundException("The semester does not have a class with this id (" + classId + ").");
+
+        semesterEntity.getClasses().remove(classEntity);
 
         semestersRepo.save(semesterEntity);
 
